@@ -404,10 +404,16 @@ currentClassNode.forEach(currentElement => {
     }
     // shadow effect logic start-------------------
     if (tshadow != null) {
-        currentElement.style.textShadow = tshadow;
+        const [blank, value] = tshadow.split("(");
+        const [valueSplit, blank2] = value.split(")");
+        const [size, color] = valueSplit.split(",");
+        currentElement.style.textShadow=`5px 5px ${size} ${color}`;
     }
     if (bshadow != null) {
-        currentElement.style.boxShadow = bshadow;
+        const [blank, value] = bshadow.split("(");
+        const [valueSplit, blank2] = value.split(")");
+        const [size, color] = valueSplit.split(",");
+        currentElement.style.boxShadow=`0px 0px ${size} ${color}`;
     }
     // border logic start-------------------
     if (bdtop != null) {

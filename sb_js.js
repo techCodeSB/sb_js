@@ -90,6 +90,35 @@ currentClassNode.forEach(currentElement => {
     const wordspace = getAtt("wordspace"); //<-- Number value
     const blur = getAtt("blur"); // <-- Number value
     
+        // --------- create shape ---------------
+    const createbox = getAtt("createbox");// <-- (width, height, bg);
+    const createcircle = getAtt("createcircle"); // <-- (size, bg);
+
+
+
+    if (createbox != null) {
+        // <div class="sb_js" createbox="(width, height, bg)"></div>
+        const getVal = createbox;
+        const [blank, firstSplit] = getVal.split("(");
+        const [secSplit, blank2] = firstSplit.split(")");
+        const [width, height, bgColor] = secSplit.split(",");
+
+        currentElement.style.width = width;
+        currentElement.style.height = height;
+        currentElement.style.backgroundColor = bgColor;
+    }
+    if (createcircle != null) {
+        // <div class="sb_js" createcircle="(size, bg)"></div>
+        const getVal = createcircle;
+        const [blank, firstSplit] = createcircle.split("(");
+        const [secSplit, blank2] = firstSplit.split(")");
+        const [size, bgColor] = secSplit.split(",");
+
+        currentElement.style.width = size;
+        currentElement.style.height = size;
+        currentElement.style.backgroundColor = bgColor;
+        currentElement.style.borderRadius = "100%";
+    }
 
     if (fg != null) {
         currentElement.style.color = fg;

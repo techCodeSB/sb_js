@@ -71,8 +71,8 @@ currentClassNode.forEach(currentElement => {
     const underline = getAtt("underline");// <-- true | false
 
     // ------- shadow effect  ----------
-    const tshadow = getAtt("tshadow");//<-- css text shadow syntax
-    const bshadow = getAtt("bshadow");//<-- css box shadow syntax
+    const tshadow = getAtt("tshadow");//<-- (size, color) ``default 5px 5px usersize usercolor``
+    const bshadow = getAtt("bshadow");//<-- (size, color) ``default 0px 0px usersize usercolor``
 
     // ----- border effect  -----------
     const bdtop = getAtt("bdtop");
@@ -89,12 +89,85 @@ currentClassNode.forEach(currentElement => {
     const letterspace = getAtt("letterspace"); // <-- Number value
     const wordspace = getAtt("wordspace"); //<-- Number value
     const blur = getAtt("blur"); // <-- Number value
-    
-        // --------- create shape ---------------
+
+    // --------- create shape ---------------
     const createbox = getAtt("createbox");// <-- (width, height, bg);
     const createcircle = getAtt("createcircle"); // <-- (size, bg);
 
+    // ------------- gradient color -------------------
+    // FOR ALL direction_gradient(color, color, color, .....);
+    const tb_gradient = getAtt("tb_gradient");
+    const bt_gradient = getAtt("bt_gradient");
+    const rl_gradient = getAtt("rl_gradient");
+    const lr_gradient = getAtt("lr_gradient");
+    // for text gradient
+    const textgradient = getAtt("textgradient"); //--> the value is `true` or `false`
 
+
+
+    // ===============================================================================
+    // ------------------------------ GRADIENT CREATE --------------------------------
+    // ===============================================================================
+    if(tb_gradient != null){//-- top to bottom gradient ------
+        const [blank, firstSplit] = tb_gradient.split("(");
+        const [colors, blank2] = firstSplit.split(")");
+        
+        currentElement.style.background = `linear-gradient(to bottom, ${colors})`
+
+        // if textgrdient attribute is true 
+        if(textgradient != null){
+            if(textgradient == "true"){
+                currentElement.style.webkitTextFillColor="transparent";
+                currentElement.style.webkitBackgroundClip="text"
+            }
+        }
+    }
+    if(bt_gradient != null){//=------ bottom to top gradient ----
+        const [blank, firstSplit] = bt_gradient.split("(");
+        const [colors, blank2] = firstSplit.split(")");
+        
+        currentElement.style.background = `linear-gradient(to top, ${colors})`
+
+        // if textgrdient attribute is true 
+        if(textgradient != null){
+            if(textgradient == "true"){
+                currentElement.style.webkitTextFillColor="transparent";
+                currentElement.style.webkitBackgroundClip="text"
+            }
+        }
+    }
+    if(rl_gradient != null){//=------ right to left gradient ----
+        const [blank, firstSplit] = rl_gradient.split("(");
+        const [colors, blank2] = firstSplit.split(")");
+        
+        currentElement.style.background = `linear-gradient(to left, ${colors})`
+
+        // if textgrdient attribute is true 
+        if(textgradient != null){
+            if(textgradient == "true"){
+                currentElement.style.webkitTextFillColor="transparent";
+                currentElement.style.webkitBackgroundClip="text"
+            }
+        }
+    }
+    if(lr_gradient != null){//=------ left to right gradient ----
+        const [blank, firstSplit] = lr_gradient.split("(");
+        const [colors, blank2] = firstSplit.split(")");
+        
+        currentElement.style.background = `linear-gradient(to right, ${colors})`
+
+        // if textgrdient attribute is true 
+        if(textgradient != null){
+            if(textgradient == "true"){
+                currentElement.style.webkitTextFillColor="transparent";
+                currentElement.style.webkitBackgroundClip="text"
+            }
+        }
+    }
+
+    // ===============================================================================
+    // ------------------------------ SHAPE CREATE -----------------------------------
+    // ===============================================================================
 
     if (createbox != null) {
         // <div class="sb_js" createbox="(width, height, bg)"></div>
@@ -109,7 +182,6 @@ currentClassNode.forEach(currentElement => {
     }
     if (createcircle != null) {
         // <div class="sb_js" createcircle="(size, bg)"></div>
-        const getVal = createcircle;
         const [blank, firstSplit] = createcircle.split("(");
         const [secSplit, blank2] = firstSplit.split(")");
         const [size, bgColor] = secSplit.split(",");
@@ -119,6 +191,7 @@ currentClassNode.forEach(currentElement => {
         currentElement.style.backgroundColor = bgColor;
         currentElement.style.borderRadius = "100%";
     }
+
 
     if (fg != null) {
         currentElement.style.color = fg;
@@ -145,7 +218,11 @@ currentClassNode.forEach(currentElement => {
     if (blur != null) {
         currentElement.style.WebkitFilter = `blur(${blur})`;
     }
-    // padding logic start ----------------------------
+
+    // ===============================================================================
+    // ------------------------------ PADDING CREATE ---------------------------------
+    // ===============================================================================
+
     if (px != null) {
         currentElement.style.paddingRight = px;
         currentElement.style.paddingLeft = px;
@@ -171,7 +248,9 @@ currentClassNode.forEach(currentElement => {
     }
 
 
-    // margin logic start -----
+    // ===============================================================================
+    // ------------------------------ MARGIN CREATE ---------------------------------
+    // ===============================================================================
     if (mx != null) {
         currentElement.style.marginRight = mx;
         currentElement.style.marginLeft = mx;
@@ -196,7 +275,9 @@ currentClassNode.forEach(currentElement => {
         currentElement.style.margin = mall;
     }
 
-    // animation logic start -----------------------------------
+    // ===============================================================================
+    // ------------------------------ ANIMATION LOGIC ---------------------------------
+    // ===============================================================================
     if (hoverfg != null) {
         const currentClassNode = currentElement;
         // get previus color jodi color ache tahole color return hobe naile 
@@ -375,7 +456,9 @@ currentClassNode.forEach(currentElement => {
         })
     }
 
-    // font style logic start ----------------------
+    /// ===============================================================================
+    // ------------------------------ FONT STYLE LOGIC ---------------------------------
+    // ===============================================================================
     if (fs != null) {
         currentElement.style.fontSize = fs;
     }
@@ -402,7 +485,11 @@ currentClassNode.forEach(currentElement => {
             currentElement.style.textDecoration = "none"
         }
     }
-    // shadow effect logic start-------------------
+
+    // ===============================================================================
+    // ------------------------------ SHADOW EFFECT ---------------------------------
+    // ===============================================================================
+
     if (tshadow != null) {
         const [blank, value] = tshadow.split("(");
         const [valueSplit, blank2] = value.split(")");
@@ -415,7 +502,11 @@ currentClassNode.forEach(currentElement => {
         const [size, color] = valueSplit.split(",");
         currentElement.style.boxShadow=`0px 0px ${size} ${color}`;
     }
-    // border logic start-------------------
+
+    // ===============================================================================
+    // ------------------------------ BORDER LOGIC ---------------------------------
+    // ===============================================================================
+
     if (bdtop != null) {
         currentElement.style.borderTop = bdtop;
     }
@@ -434,7 +525,11 @@ currentClassNode.forEach(currentElement => {
     if (br != null) {
         currentElement.style.borderRadius = br
     }
-    // for link create logic -------------------------
+
+    // ===============================================================================
+    // ------------------------------ FOR CUSTOM LINK CREATE -------------------------
+    // ===============================================================================
+
     if (to != null) {
         const getToValue = to;
         currentElement.style.cursor = "pointer";
@@ -443,7 +538,11 @@ currentClassNode.forEach(currentElement => {
             window.location = getToValue;
         })
     }
-    // width and height logic ------------------------
+
+    // ===============================================================================
+    // ------------------------------ WIDTH AND HEIGHT -------------------------------
+    // ===============================================================================
+
     if (width != null) {
         currentElement.style.width = width;
     }

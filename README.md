@@ -1,4 +1,4 @@
-# sb_js
+# <center> sb_js </center>
 ---
 ## ``` Sourav Bishai ```
 ### style html element using custom html attribute
